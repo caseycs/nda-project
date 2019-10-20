@@ -36,6 +36,6 @@ class StepCalculator
         }
 
         // @todo add custom exception
-        throw new \LogicException('Complete percentage unknown: ' . $percentage, E_USER_WARNING);
+        throw new \LogicException(sprintf('Complete percentage unknown: "%s"', $percentage), E_USER_WARNING);
     }
 }

@@ -2,9 +2,15 @@
 
 ## Howto
 
+### Run
+
 `docker-compose up`
 
 Open http://docker-machine in browser
+
+### Test
+
+`./vendor/bin/phpunit tests`
 
 ## Assumptions/Questions
 

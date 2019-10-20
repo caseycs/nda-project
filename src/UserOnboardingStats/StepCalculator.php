@@ -35,6 +35,7 @@ class StepCalculator
             return self::LEGACY[$percentage];
         }
 
+        // @todo add custom exception
         throw new \LogicException('Complete percentage unknown: ' . $percentage, E_USER_WARNING);
     }
 }

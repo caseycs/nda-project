@@ -33,12 +33,6 @@ class FileDataProvider implements ProviderInterface
     {
         $result = [];
         foreach ($rawData as $line => $user) {
-            if ($user[2] === '') {
-                // @todo here application logger shoud be used
-                trigger_error(sprintf('Percentage missing on line %d, skipping: %s', $line, json_encode($user)));
-                continue;
-            }
-
             $dateUnixtime = strtotime($user[1]);
             $key = date('Y-W', $dateUnixtime);
 
@@ -47,7 +41,19 @@ class FileDataProvider implements ProviderInterface
                 $result[$key] = [$dateUnixtime, 0, []];
             }
 
-            $step = $this->stepCalculator->fromPercentage($user[2]);
+            try {
+                $step = $this->stepCalculator->fromPercentage($user[2]);
+            } catch (\Exception $e) {
+                // @todo application logger should be used
+                error_log(
+                    sprintf(
+                        'fromPercentage failed on line %d (%s) with message "%s", skipping',
+                        $line,
+                        json_encode($user),
+                        $e->getMessage()
+                    )
+                );
+            }
 
             if (!isset($result[$key][2][$step])) {
                 $result[$key][2][$step] = 0;

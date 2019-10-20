@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div id="container" style="width:100%; height:400px;"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var myChart = Highcharts.chart('container', {
+      chart: {
+        type: 'bar',
+        events: {
+          load: requestData
+        }
+      },
+      title: {
+        text: 'Fruit Consumption'
+      },
+      xAxis: {
+        categories: ['Apples', 'Bananas', 'Oranges']
+      },
+      yAxis: {
+        title: {
+          text: 'Fruit eaten'
+        }
+      },
+      series: [{
+        name: 'Jane',
+        data: [1, 0, 4]
+      }, {
+        name: 'John',
+        data: [5, 7, 3]
+      }]
+    });
+  });
+
+  function requestData() {
+    $.ajax({
+      url: '/userOnboardingStats.php',
+      success: function(point) {
+        console.log(point);
+        // var series = chart.series[0],
+        //   shift = series.data.length > 20; // shift if the series is
+        // // longer than 20
+        // // add the point
+        // chart.series[0].addPoint(point, true, shift);
+        //
+        // // call it again after one second
+        // setTimeout(requestData, 1000);
+      },
+      cache: false
+    });
+  }
+</script>
+</body>
+</html>

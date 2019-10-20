@@ -1,6 +1,7 @@
 {
     "require": {
-      "ext-json": "*"
+      "ext-json": "*",
+        "symfony/http-foundation": "^4.3"
     },
     "autoload": {
         "psr-4": {

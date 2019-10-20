@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FileDataProviderTest extends TestCase
 {
-    public function providerTestGetByWeek()
+    public function providerTestGetByWeek(): array
     {
         return [
             'simplest' => [
@@ -52,7 +52,7 @@ final class FileDataProviderTest extends TestCase
                     ['3121', '2019-10-20', '90', '0', '0'],
                 ],
                 [
-                    ['2019-10-20', 0, 1/3, 1/3, 0, 0, 1/3, 0, 0],
+                    ['2019-10-20', 0, 1 / 3, 1 / 3, 0, 0, 1 / 3, 0, 0],
                 ],
             ],
         ];
@@ -61,7 +61,7 @@ final class FileDataProviderTest extends TestCase
     /**
      * @dataProvider providerTestGetByWeek
      */
-    public function testGetByWeek(array $data, array $expected)
+    public function testGetByWeek(array $data, array $expected): void
     {
         $fileReader = \Mockery::mock(\App\UserOnboardingStats\FileReader::class);
         $fileReader->shouldReceive('read')->once()->withNoArgs()->andReturn($data);

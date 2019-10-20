@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\UserOnboardingStats\FileDataProvider as FileDataProviderAlias;
+use App\Service\UserOnboardingStats\FileDataProvider as FileDataProviderAlias;
 use PHPUnit\Framework\TestCase;
 
 final class FileDataProviderTest extends TestCase
@@ -63,10 +63,10 @@ final class FileDataProviderTest extends TestCase
      */
     public function testGetByWeek(array $data, array $expected): void
     {
-        $fileReader = \Mockery::mock(\App\UserOnboardingStats\FileReader::class);
+        $fileReader = \Mockery::mock(\App\Service\UserOnboardingStats\FileReader::class);
         $fileReader->shouldReceive('read')->once()->withNoArgs()->andReturn($data);
 
-        $obj = new FileDataProviderAlias($fileReader, new \App\UserOnboardingStats\StepCalculator);
+        $obj = new FileDataProviderAlias($fileReader, new \App\Service\UserOnboardingStats\StepCalculator);
 
         $result = [];
         foreach ($obj->getByWeek() as $byWeek) {

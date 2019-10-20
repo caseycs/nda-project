@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UserOnboardingStats;
+namespace App\Service\UserOnboardingStats;
 
 class FileReader
 {

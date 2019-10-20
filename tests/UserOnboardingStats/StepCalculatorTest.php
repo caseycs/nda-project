@@ -22,7 +22,7 @@ final class StepCalculatorTest extends TestCase
      */
     public function testFromPercentageCurrent(string $percentage, int $expected): void
     {
-        $obj = new \App\UserOnboardingStats\StepCalculator;
+        $obj = new \App\Service\UserOnboardingStats\StepCalculator;
         $this->assertSame($expected, $obj->fromPercentage($percentage));
     }
 
@@ -31,7 +31,7 @@ final class StepCalculatorTest extends TestCase
      */
     public function testFromPercentageInvalid(): void
     {
-        $obj = new \App\UserOnboardingStats\StepCalculator;
+        $obj = new \App\Service\UserOnboardingStats\StepCalculator;
         $obj->fromPercentage('');
     }
 }

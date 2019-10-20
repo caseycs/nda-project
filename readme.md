@@ -19,3 +19,5 @@ docker-compose -f docker-compose.yml -f docker-compose.test.yml up phpunit
 
 * There are sometimes legacy percentages in csv, I made extra map to convert them to steps
 * Sometimes percentage is missing, I report such cases to logs
+* Maybe getters per each step in `StepPercentagesPerWeek` are too much,
+  but I always prefer explicit methods&variables over magic arrays 

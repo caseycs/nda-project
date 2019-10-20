@@ -35,6 +35,12 @@ class FileDataProvider implements ProviderInterface
      */
     private function aggregatePercentages(array $rawData): array
     {
+        // @todo ideas to optimize this one, because current version is definitely not the fastest one
+        // 1) sort $rawData, so data will be in chronological order, so it would be possible to
+        //    avoid second loop over weeks, since we will know total count of users on another date on the next row
+        // 2) rewrite fromPercentage, so we will increment all already passed steps instead of extra for loop
+        // 3) ... ?
+
         $result = [];
 
         // small optimization - this array will be reused

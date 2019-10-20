@@ -12,7 +12,6 @@ class FileReader
         $this->filepath = $filepath;
     }
 
-
     public function read(): array
     {
         $result = [];

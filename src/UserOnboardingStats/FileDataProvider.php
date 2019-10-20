@@ -1,48 +1,32 @@
 <?php
 declare(strict_types=1);
 
-namespace App;
+namespace App\UserOnboardingStats;
 
-class UserOnboardingStatsProvider implements UserOnboardingStatsProviderInterface
+class FileDataProvider implements ProviderInterface
 {
     /**
-     * @var UserOnboardingStatsFileReader
+     * @var FileReader
      */
     private $reader;
 
-    public function __construct(UserOnboardingStatsFileReader $reader)
+    /**
+     * @var StepCalculator
+     */
+    private $stepCalculator;
+
+    public function __construct(FileReader $reader, StepCalculator $stepCalculator)
     {
         $this->reader = $reader;
+        $this->stepCalculator = $stepCalculator;
     }
 
     /**
-     * @return array|UserOnboardingStatsWeek[]
+     * @return array|StepPercentagesPerWeek[]
      */
     public function getByWeek(): array
     {
         return $this->aggregatePercentages($this->groupByWeek($this->reader->read()));
-    }
-
-    private function calculateStep(string $percentage): int
-    {
-        switch ($percentage) {
-            case '20':
-                return 2;
-            case '40':
-                return 3;
-            case '50':
-                return 4;
-            case '70':
-                return 5;
-            case '90':
-                return 6;
-            case '99':
-                return 7;
-            case '100':
-                return 8;
-        }
-        // @todo make custom exception
-        throw new \LogicException('Complete percentage unknown: ' . $percentage);
     }
 
     private function groupByWeek(array $rawData): array
@@ -58,23 +42,25 @@ class UserOnboardingStatsProvider implements UserOnboardingStatsProviderInterfac
             }
 
             try {
-                $step = $this->calculateStep($user[2]);
-                if (!isset($result[$key][2][$step])) {
-                    $result[$key][2][$step] = 0;
-                }
-                $result[$key][1]++;
-                $result[$key][2][$step]++;
+                $step = $this->stepCalculator->fromPercentage($user[2]);
             } catch (\LogicException $e) {
                 // @todo here should be call to global application logging interface
                 trigger_error($e->getMessage(), E_USER_WARNING);
+                continue;
             }
+
+            if (!isset($result[$key][2][$step])) {
+                $result[$key][2][$step] = 0;
+            }
+            $result[$key][1]++;
+            $result[$key][2][$step]++;
         }
         return $result;
     }
 
     /**
      * @param array $rawData
-     * @return array|UserOnboardingStatsWeek[]
+     * @return array|StepPercentagesPerWeek
      */
     private function aggregatePercentages(array $rawData): array
     {
@@ -93,7 +79,7 @@ class UserOnboardingStatsProvider implements UserOnboardingStatsProviderInterfac
 
             $date = \DateTime::createFromFormat('U', (string)$unixtime);
 
-            $result[] = new UserOnboardingStatsWeek($date, ...$percentages);
+            $result[] = new StepPercentagesPerWeek($date, ...$percentages);
         }
         return $result;
     }

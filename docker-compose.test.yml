@@ -1,0 +1,8 @@
+version: "2.2"
+
+services:
+  phpunit:
+    image: php:7.2-fpm
+    volumes:
+      - .:/src
+    entrypoint: /src/vendor/bin/phpunit /src/tests

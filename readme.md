@@ -1,16 +1,19 @@
 # nda project =)
 
-## Howto
+## HowTos
 
 ### Run
 
 `docker-compose up`
 
-Open http://docker-machine in browser
+Wait a bit for composer install to be complete and open http://docker-machine
 
 ### Test
 
-`./vendor/bin/phpunit tests`
+```
+docker-compose -f docker-compose.yml up composer
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up phpunit
+```
 
 ## Assumptions/Questions
 

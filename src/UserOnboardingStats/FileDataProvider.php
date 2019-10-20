@@ -32,7 +32,13 @@ class FileDataProvider implements ProviderInterface
     private function groupByWeek(array $rawData): array
     {
         $result = [];
-        foreach ($rawData as $user) {
+        foreach ($rawData as $line => $user) {
+            if ($user[2] === '') {
+                // @todo here application logger shoud be used
+                trigger_error(sprintf('Percentage missing on line %d, skipping: %s', $line, json_encode($user)));
+                continue;
+            }
+
             $dateUnixtime = strtotime($user[1]);
             $key = date('Y-W', $dateUnixtime);
 
@@ -41,13 +47,7 @@ class FileDataProvider implements ProviderInterface
                 $result[$key] = [$dateUnixtime, 0, []];
             }
 
-            try {
-                $step = $this->stepCalculator->fromPercentage($user[2]);
-            } catch (\LogicException $e) {
-                // @todo here should be call to global application logging interface
-                trigger_error($e->getMessage(), E_USER_WARNING);
-                continue;
-            }
+            $step = $this->stepCalculator->fromPercentage($user[2]);
 
             if (!isset($result[$key][2][$step])) {
                 $result[$key][2][$step] = 0;
@@ -67,7 +67,7 @@ class FileDataProvider implements ProviderInterface
         $result = [];
 
         // small optimization - this array will be reused
-        $percentagesBlank = array_fill_keys(range(2, 8), 0);
+        $percentagesBlank = array_fill_keys(range(1, 8), 0);
 
         foreach ($rawData as $week => $weekData) {
             list ($unixtime, $usersTotal, $steps) = $weekData;

@@ -13,6 +13,11 @@ class StepPercentagesPerWeek
     /**
      * @var float
      */
+    private $step1p;
+
+    /**
+     * @var float
+     */
     private $step2p;
 
     /**
@@ -47,6 +52,7 @@ class StepPercentagesPerWeek
 
     public function __construct(
         \DateTime $week,
+        float $step1p,
         float $step2p,
         float $step3p,
         float $step4p,
@@ -56,6 +62,7 @@ class StepPercentagesPerWeek
         float $step8p
     ) {
         $this->week = $week;
+        $this->step1p = $step1p;
         $this->step2p = $step2p;
         $this->step3p = $step3p;
         $this->step4p = $step4p;
@@ -75,7 +82,7 @@ class StepPercentagesPerWeek
      */
     public function getStep1P(): float
     {
-        return 0.0;
+        return $this->step1p;
     }
 
     /**

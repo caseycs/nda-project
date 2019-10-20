@@ -5,26 +5,36 @@ namespace App\UserOnboardingStats;
 
 class StepCalculator
 {
+    private const CURRENT = [
+        20 => 2,
+        40 => 3,
+        50 => 4,
+        70 => 5,
+        90 => 6,
+        99 => 7,
+        100 => 8,
+    ];
+
+    private const LEGACY = [
+        35 => 2,
+        45 => 3,
+        55 => 4,
+        60 => 4,
+        65 => 4,
+        95 => 6,
+    ];
+
     public function fromPercentage(string $percentage): int
     {
-        switch ($percentage) {
-            case '20':
-                return 2;
-            case '40':
-                return 3;
-            case '50':
-                return 4;
-            case '70':
-                return 5;
-            case '90':
-                return 6;
-            case '99':
-                return 7;
-            case '100':
-                return 8;
+        if (isset(self::CURRENT[$percentage])) {
+            return self::CURRENT[$percentage];
         }
 
-        // @todo make custom exception
-        throw new \LogicException('Complete percentage unknown: ' . $percentage);
+        // looks like there were more onboarding steps before, trying to match them to curren
+        if (isset(self::LEGACY[$percentage])) {
+            return self::LEGACY[$percentage];
+        }
+
+        throw new \LogicException('Complete percentage unknown: ' . $percentage, E_USER_WARNING);
     }
 }

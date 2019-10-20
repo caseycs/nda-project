@@ -5,50 +5,59 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-<div id="container" style="width:100%; height:400px;"></div>
+<div id="container" style="width:100%; height:600px;"></div>
 <script>
+  var myChart;
+
   document.addEventListener('DOMContentLoaded', function () {
-    var myChart = Highcharts.chart('container', {
+    myChart = Highcharts.chart('container', {
       chart: {
-        type: 'bar',
+        type: 'spline',
         events: {
           load: requestData
         }
       },
       title: {
-        text: 'Fruit Consumption'
+        text: 'Onboarding flow progress'
       },
       xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
+        labels: {
+          formatter: function () {
+            return 'Step ' + (parseInt(this.value) + 1);
+          }
+        },
+        tickInterval: 1,
       },
       yAxis: {
         title: {
-          text: 'Fruit eaten'
+          text: 'Users %'
         }
       },
-      series: [{
-        name: 'Jane',
-        data: [1, 0, 4]
-      }, {
-        name: 'John',
-        data: [5, 7, 3]
-      }]
+      series: [],
+      tooltip: {
+        formatter: function () {
+          return '<b>' + this.y + '</b>% on step <b>' + (parseInt(this.x) + 1) + '</b> during ' + this.series.name;
+        }
+      }
     });
   });
 
   function requestData() {
     $.ajax({
       url: '/app',
-      success: function(point) {
-        console.log(point);
-        // var series = chart.series[0],
-        //   shift = series.data.length > 20; // shift if the series is
-        // // longer than 20
-        // // add the point
-        // chart.series[0].addPoint(point, true, shift);
-        //
-        // // call it again after one second
-        // setTimeout(requestData, 1000);
+      success: function (weeks) {
+        console.log(weeks);
+
+        for (let i in weeks) {
+          console.log(weeks[i]);
+
+          myChart.addSeries({
+            name: weeks[i][0],
+            data: weeks[i][1]
+          }, false);
+        }
+
+        myChart.redraw();
       },
       cache: false
     });

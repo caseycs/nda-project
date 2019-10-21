@@ -13,7 +13,7 @@ Wait a bit for composer install to be complete and open http://docker-machine
 ### Test
 
 ```
-docker-compose -f docker-compose.yml up composer
+docker-compose up composer
 docker-compose -f docker-compose.yml -f docker-compose.test.yml up phpunit
 ```
 

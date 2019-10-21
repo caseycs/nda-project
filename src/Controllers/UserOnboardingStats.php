@@ -24,13 +24,13 @@ class UserOnboardingStats
                 $item->getWeek()->format('Y \w\e\e\k W'),
                 [
                     round($item->getStep1P() * 100, 2),
-                    round($item->getStep2P()* 100, 2),
-                    round($item->getStep3P()* 100, 2),
-                    round($item->getStep4P()* 100, 2),
-                    round($item->getStep5P()* 100, 2),
-                    round($item->getStep6P()* 100, 2),
-                    round($item->getStep7P()* 100, 2),
-                    round($item->getStep8P()* 100, 2),
+                    round($item->getStep2P() * 100, 2),
+                    round($item->getStep3P() * 100, 2),
+                    round($item->getStep4P() * 100, 2),
+                    round($item->getStep5P() * 100, 2),
+                    round($item->getStep6P() * 100, 2),
+                    round($item->getStep7P() * 100, 2),
+                    round($item->getStep8P() * 100, 2),
                 ],
             ];
         }

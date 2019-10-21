@@ -30,12 +30,12 @@ class StepCalculator
             return self::CURRENT[$percentage];
         }
 
-        // looks like there were more onboarding steps before, trying to match them to curren
+        // looks like there were more onboarding steps before, trying to match them to current
         if (isset(self::LEGACY[$percentage])) {
             return self::LEGACY[$percentage];
         }
 
         // @todo add custom exception
-        throw new \LogicException(sprintf('Complete percentage unknown: "%s"', $percentage), E_USER_WARNING);
+        throw new \LogicException(sprintf('Complete percentage unknown: "%s"', $percentage));
     }
 }

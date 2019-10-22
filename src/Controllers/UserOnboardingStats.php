@@ -19,7 +19,6 @@ class UserOnboardingStats
     {
         $result = [];
         foreach ($this->dataProvider->getByWeek() as $item) {
-            // @todo add data for all steps
             $result[] = [
                 $item->getWeek()->format('Y \w\e\e\k W'),
                 [
